@@ -32,21 +32,27 @@ public class Amazon {
     public Map<String, String> getAllDistinctProducts() {
         Map<String, String> result = new HashMap<>();
         for (WebElement el : allSneakers) {
-            //String name = el.findElement(By.cssSelector(".a-size-base-plus.a-color-base.a-text-normal")).getText();
-            String name=null;
-            try {
-                name = el.findElement(By.xpath(".//a[contains(@class,'a-text-normal')]/span[2]")).getText();
-            } catch (Exception ex){
-                //System.out.println("Error: "+result);
+            String elementData = el.getText();
+            String[] viewData = elementData.split("\n");
+            int nameIndex = viewData.length - 2;
+
+            String name = elementData;
+
+            if (nameIndex > 0) {
+                name = viewData[nameIndex];
+            } else {
+                //todo make a log;
             }
-            try{
-                //String price = el.findElement(By.cssSelector(".a-row.a-size-base.a-color-base span span")).getText();
-                String price = el.findElement(By.xpath(".//span[@class='a-offscreen']")).getAttribute("outerText");
-                result.put(name, price);
+            String price = "$0.00";
+            int priceIndex = viewData.length - 1;
+
+            if (priceIndex > 0) {
+                price = viewData[priceIndex];
+            } else {
+                //todo make a log;
             }
-            catch(Exception ex){
-                result.put(name, "$0.00");
-            }
+            result.put(name, price);
+            System.out.println(String.format("found price {0} {1}", name, price));
         }
         return result;
     }
