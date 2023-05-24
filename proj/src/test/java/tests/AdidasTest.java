@@ -28,17 +28,24 @@ public class AdidasTest extends BaseTest {
         LOG.info("Search run");
 
         LOG.info("pull search results");
-        Map<String, String> mapOfDistinctSneakers = storePage.getAllDistinctProducts();
+        String defaultPriceValue = "$0";
+        Map<String, String> mapOfDistinctSneakers = storePage.getAllDistinctProducts(defaultPriceValue);
         LOG.debug(String.format("Found {0} items", mapOfDistinctSneakers.size()));
-        mapOfDistinctSneakers.forEach((key, value) -> System.out.println(key + " --- " + value));
+
+        SoftAssert softAssert = new SoftAssert();
 
         LOG.info("Search results validation start");
 
-        //Assert
-        SoftAssert softAssert = new SoftAssert();
-        //softAssert.
+        mapOfDistinctSneakers.forEach((key, value) ->
+        {
+            System.out.println(key + " --- " + value);
+            if(value == defaultPriceValue){
+                LOG.error(String.format("Product"+key+" doesn't has price"));
+                softAssert.assertNotEquals(value, defaultPriceValue);
+            }
+        });
 
-
+        LOG.info("Test finished"); 
     }
 
 

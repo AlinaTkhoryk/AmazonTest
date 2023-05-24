@@ -27,7 +27,7 @@ public class Amazon {
     @FindBy(xpath = "//*[contains(@data-component-type,'s-search-result')]//div[@data-component-type='s-search-result']")
     List<WebElement> allSneakers;
 
-    public Map<String, String> getAllDistinctProducts() {
+    public Map<String, String> getAllDistinctProducts(String defaultPriceValue) {
         Map<String, String> result = new HashMap<>();
         for (WebElement el : allSneakers) {
             String elementData = el.getText();
@@ -43,7 +43,7 @@ public class Amazon {
                 System.out.println("Could not get name from data" + elementData);
             }
             index++;
-            String price = "$0";
+            String price = defaultPriceValue;
 
             if (index < viewData.length) {
                 price ="$"+ viewData[index];
