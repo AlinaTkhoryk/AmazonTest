@@ -1,8 +1,8 @@
 package tests;
 
-import org.openqa.selenium.WebElement;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.Amazon;
 
@@ -10,29 +10,29 @@ import java.util.Map;
 
 public class AdidasTest extends BaseTest {
 
-    //protected Amazon storePage;
-
-    /*    @BeforeSuite
-    public void setupChromeDriver() {
-        WebDriverManager.chromedriver()
-                .browserVersion("93.0.4577.63")
-                .setup();
-        options = new ChromeOptions();
-        options.addArguments("start-maximized");
-    }*/
-
     @Test
     public void testCase1() {
+
+        LOG.info("Open amazon page");
         driver.get("https://amazon.com/");
         Amazon storePage = PageFactory.initElements(driver, Amazon.class);
+        LOG.info("Amazon page opened");
 
+        LOG.info("Setup search start");
         storePage.searchProduct("adidas shoes men");
         storePage.setSneakersType();
         storePage.setMinPriceFilter("40");
-        storePage.goSearch();
+        LOG.info("Setup search finished");
 
+        storePage.goSearch();
+        LOG.info("Search run");
+
+        LOG.info("pull search results");
         Map<String, String> mapOfDistinctSneakers = storePage.getAllDistinctProducts();
+        LOG.debug(String.format("Found {0} items", mapOfDistinctSneakers.size()));
         mapOfDistinctSneakers.forEach((key, value) -> System.out.println(key + " --- " + value));
+
+        LOG.info("Search results validation start");
 
         //Assert
         SoftAssert softAssert = new SoftAssert();

@@ -1,13 +1,11 @@
 package pages;
 
-import org.openqa.selenium.By;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.annotations.Optional;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,25 +32,25 @@ public class Amazon {
         for (WebElement el : allSneakers) {
             String elementData = el.getText();
             String[] viewData = elementData.split("\n");
-            int nameIndex = viewData.length - 2;
+
+            int index = viewData.length == 3 ? 1 : 0;
 
             String name = elementData;
 
-            if (nameIndex > 0) {
-                name = viewData[nameIndex];
+            if (index < viewData.length) {
+                name = viewData[index];
             } else {
-                //todo make a log;
+                System.out.println("Could not get name from data" + elementData);
             }
-            String price = "$0.00";
-            int priceIndex = viewData.length - 1;
+            index++;
+            String price = "$0";
 
-            if (priceIndex > 0) {
-                price = viewData[priceIndex];
+            if (index < viewData.length) {
+                price ="$"+ viewData[index];
             } else {
-                //todo make a log;
+                System.out.println("Could not get price from data" + elementData);
             }
             result.put(name, price);
-            System.out.println(String.format("found price {0} {1}", name, price));
         }
         return result;
     }

@@ -28,15 +28,7 @@ public class BaseTest {
     @BeforeTest
     public void setDriver(){
 
-        //System.out.println("BeforeTest");
         WebDriverManager.chromedriver().setup();
-        //driver = WebDriverManager.chromedriver().create();
-//        WebDriverManager.chromedriver()
-//                .linux()
-//                .browserVersion("95.0.4638.69")
-//                .setup();
-//        options = new ChromeOptions();
-//        options.addArguments("start-maximized");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
@@ -70,7 +62,4 @@ public class BaseTest {
         LOG.info("Switch to window");
         LOG.debug("Switch to window by key: "+windowKey);
     }
-
-
-
 }
